@@ -1,0 +1,14 @@
+<h1>Hello World!</h1>
+
+<input id="get_info" type="button" value="Get Info" />
+<div id="result"></div>
+
+<script type="text/javascript">
+    const { invoke } = window.__TAURI__.tauri;
+
+    document.getElementById("get_info").addEventListener("click", () => {
+        invoke('get_info', {}).then(response => {
+            document.getElementById("result").innerText = response;
+        });
+    });
+</script>
