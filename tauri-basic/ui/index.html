@@ -1,7 +1,9 @@
 <h1>Hello World!</h1>
 
-<input id="get_info" type="button" value="Get Info" />
-<div id="result"></div>
+<div>
+    <input id="get_info" type="button" value="Get Info" />
+    <div id="result"></div>
+</div>
 
 <script type="text/javascript">
     const { invoke } = window.__TAURI__.tauri;
@@ -11,4 +13,20 @@
             document.getElementById("result").innerText = response;
         });
     });
+</script>
+
+<div>
+    <input id="inc" type="button" value="Inc Count" />
+    <div id="count"></div>
+</div>
+
+<script type="text/javascript">
+    const { listen } = window.__TAURI__.event;
+
+    listen('counter_update', evt => {
+        let new_value = evt.payload;
+        document.getElementById("count").innerText = new_value;
+    });
+
+    document.getElementById("inc").addEventListener("click", () => invoke('inc_count'));
 </script>
