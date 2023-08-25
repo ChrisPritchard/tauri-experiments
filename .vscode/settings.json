@@ -1,6 +1,7 @@
 {
     "rust-analyzer.linkedProjects": [
         "./tauri-app-template/src-tauri/Cargo.toml",
-        "./tauri-basic/src-tauri/Cargo.toml"
+        "./tauri-basic/src-tauri/Cargo.toml",
+        "./lets-try-with-ecs/src-tauri/Cargo.toml",
     ]
 }

@@ -1,1 +1,16 @@
 <h1>Hello World</h1>
+
+<h2>Cities</h2>
+<div id="cities_result"></div>
+
+<script type="text/javascript">
+    const { invoke } = window.__TAURI__.tauri;
+
+    invoke('get_cities').then(response => {
+        let result = document.getElementById('cities_result');
+        for(var i = 0; i < response.length; i++) {
+            let city = response[i];
+            result.innerHTML += `<div><b>City:</b> ${city.name}<br/><b>Coords:</b> ${city.coords}</div>`;
+        }
+    });
+</script>
