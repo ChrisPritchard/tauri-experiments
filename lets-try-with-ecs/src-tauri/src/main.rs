@@ -24,7 +24,7 @@ fn main() {
 
     tauri::Builder::default()
         .manage(Mutex::new(GameState{ world }))
-        .invoke_handler(tauri::generate_handler![get_cities])
+        .invoke_handler(tauri::generate_handler![get_cities, add_city])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
@@ -34,4 +34,10 @@ fn get_cities(game_state: State<Mutex<GameState>>) -> Vec<City> {
     let game_state = game_state.lock().unwrap();
     let cities: Vec<_> = <&City>::query().iter(&game_state.world).map(|c| c.clone()).collect();
     cities
+}
+
+#[tauri::command]
+fn add_city(name: String, lat: f32, long: f32, game_state: State<Mutex<GameState>>) {
+    let mut game_state = game_state.lock().unwrap();
+    game_state.world.push(((), City { name, coords: (lat, long) }));
 }
