@@ -5,7 +5,7 @@ use std::sync::Mutex;
 
 use components::City;
 use legion::{World, IntoQuery};
-use tauri::State;
+use tauri::{State, Manager};
 
 mod components;
 
@@ -23,6 +23,15 @@ fn main() {
     world.push(((), City { name: String::from("Hong Kong"), coords: (22.396428, 114.109497) }));
 
     tauri::Builder::default()
+        .setup(|app| {
+            #[cfg(debug_assertions)] // only include this code on debug builds
+            {
+            let window = app.get_window("main").unwrap();
+            window.open_devtools();
+            window.close_devtools();
+            }
+            Ok(())
+        })
         .manage(Mutex::new(GameState{ world }))
         .invoke_handler(tauri::generate_handler![get_cities, add_city])
         .run(tauri::generate_context!())
